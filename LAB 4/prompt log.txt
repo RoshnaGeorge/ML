@@ -1,0 +1,488 @@
+============================================================
+CHAT LOG
+Topic: ML Lab – Custom Functions & AI-Generated Unit Tests
+============================================================
+
+
+[USER - Prompt 1]
+
+def label_encode(data):
+    unq = [] #take all unique values
+    for x in data:
+        if x not in unq:
+            unq.append(x)
+    mp = {}
+    for i, v in enumerate(unq): 
+        mp[v] = i
+    enc = [] 
+    for x in data:
+        enc.append(mp[x])# appended the values
+    return enc, mp
+
+
+def one_hot_encode(data):
+    unq = []
+    for x in data: #same
+        if x not in unq:
+            unq.append(x)
+    res = []
+    for x in data:
+        r = []
+        for u in unq: #comparing with every other unq value
+            if x == u:
+                r.append(1)
+            else:
+                r.append(0)
+        res.append(r)
+    return res, unq
+
+#basically just use dictionary/table
+
+this is my implementation for the 2 functions,
+give me ur implementations for label and one-hot encoding.
+
+
+[ASSISTANT - Response 1]
+
+Provided clean implementations for:
+
+1. Label encoding using a unique-value list and dictionary comprehension.
+2. One-hot encoding using a unique-value list and nested loops.
+
+Also explained the difference:
+
+- Label encoding → category → number
+- One-hot encoding → category → one position in a vector
+
+
+------------------------------------------------------------
+
+[USER - Prompt 2]
+
+give me an optimised implementation for it.
+
+
+[ASSISTANT - Response 2]
+
+Provided optimized implementations using a dictionary directly.
+
+Label encoding:
+
+def label_encode(data):
+    mp = {}
+    enc = []
+
+    for x in data:
+        if x not in mp:
+            mp[x] = len(mp)
+        enc.append(mp[x])
+
+    return enc, mp
+
+
+One-hot encoding:
+
+def one_hot_encode(data):
+    mp = {}
+
+    for x in data:
+        if x not in mp:
+            mp[x] = len(mp)
+
+    res = []
+
+    for x in data:
+        row = [0] * len(mp)
+        row[mp[x]] = 1
+        res.append(row)
+
+    return res, mp
+
+Explained that the dictionary approach avoids repeatedly comparing
+each value against every unique value and is therefore more efficient.
+
+
+------------------------------------------------------------
+
+[USER - Prompt 3]
+
+def minkowski_distance(a, b, p):
+     return np.sum(np.abs(a - b) ** p) ** (1 / p)
+
+please give for this functions too.
+
+
+[ASSISTANT - Response 3]
+
+Provided a manual/custom implementation:
+
+def minkowski_distance(a, b, p):
+    total = 0
+
+    for x, y in zip(a, b):
+        total += abs(x - y) ** p
+
+    return total ** (1 / p)
+
+Explained that this directly implements:
+
+Minkowski distance =
+(sum(|a_i - b_i|^p))^(1/p)
+
+Also noted that the NumPy implementation is already highly optimized,
+while the manual version is preferable for demonstrating understanding
+of the formula in a lab.
+
+
+------------------------------------------------------------
+
+[USER - Prompt 4]
+
+def dot(A, B):
+    r = 0
+    for i in range(len(A)):
+        r += A[i] * B[i]
+    return r
+
+def norm(V):
+    s = 0
+    for i in range(len(V)):
+        s += V[i] ** 2
+    return s ** 0.5
+
+for dot product and euclidean norm as well
+
+
+[ASSISTANT - Response 4]
+
+Provided optimized custom implementations:
+
+Dot product:
+
+def dot(A, B):
+    return sum(x * y for x, y in zip(A, B))
+
+
+Euclidean norm:
+
+def norm(V):
+    return sum(x ** 2 for x in V) ** 0.5
+
+Explained that both have O(n) time complexity and that the
+optimization is mainly cleaner iteration rather than changing
+the fundamental algorithm.
+
+
+------------------------------------------------------------
+
+[USER - Prompt 5]
+
+def mean(data):
+    t = 0
+    for v in data:
+        t += v
+    return t / len(data)
+
+
+def variance(data):
+    m = mean(data)
+    t = 0
+    for v in data:
+        t += (v - m) ** 2
+    return t / len(data)
+
+
+def std(data):
+    return variance(data) ** 0.5
+
+for mean variance and std dev also
+
+
+[ASSISTANT - Response 5]
+
+Provided optimized versions:
+
+def mean(data):
+    return sum(data) / len(data)
+
+
+def variance(data):
+    m = mean(data)
+    return sum((x - m) ** 2 for x in data) / len(data)
+
+
+def std(data):
+    return variance(data) ** 0.5
+
+Explained that this calculates population variance because the
+denominator is len(data), rather than len(data) - 1.
+
+
+------------------------------------------------------------
+
+[USER - Prompt 6]
+
+this is ai code:(this weeks lab)
+
+import numpy as np
+
+def label_encode(data):
+mp = {}
+enc = []
+
+for x in data:
+    if x not in mp:
+        mp[x] = len(mp)
+    enc.append(mp[x])
+
+return enc, mp
+
+
+def one_hot_encode(data):
+mp = {}
+
+for x in data:
+    if x not in mp:
+        mp[x] = len(mp)
+
+res = []
+
+for x in data:
+    row = [0] * len(mp)
+    row[mp[x]] = 1
+    res.append(row)
+
+return res, mp
+
+
+def minkowski_distance(a, b, p):
+return np.linalg.norm(a - b, ord=p) #coded using chatgpt
+
+def dot(A, B): #code with chatgpt
+return sum(x * y for x, y in zip(A, B))
+
+def norm(V): #code with chatgpt
+return sum(x ** 2 for x in V) ** 0.5
+
+def mean(data): #code with chatgpt
+return sum(data) / len(data)
+
+def variance(data): #code with chatgpt
+m = mean(data)
+return sum((x - m) ** 2 for x in data) / len(data)
+
+def std(data): #code with chatgpt
+return variance(data) ** 0.5
+
+
+
+this is my code:(last weeks lab)
+
+import numpy as np
+
+
+def label_encode(data):
+
+    unq = [] #take all unique values
+
+    for x in data:
+
+        if x not in unq:
+
+            unq.append(x)
+
+    mp = {}
+
+    for i, v in enumerate(unq): 
+
+        mp[v] = i
+
+    enc = [] 
+
+    for x in data:
+
+        enc.append(mp[x])# appended the values
+
+    return enc, mp
+
+
+def one_hot_encode(data):
+
+    unq = []
+
+    for x in data: #same
+
+        if x not in unq:
+
+            unq.append(x)
+
+    res = []
+
+    for x in data:
+
+        r = []
+
+        for u in unq: #comparing with every other unq value
+
+            if x == u:
+
+                r.append(1)
+
+            else:
+
+                r.append(0)
+
+        res.append(r)
+
+    return res, unq
+
+#basically just use dictionary/table
+
+
+def minkowski_distance(a, b, p):
+
+     return np.sum(np.abs(a - b) ** p) ** (1 / p)
+
+
+def dot(A, B):
+
+    r = 0
+
+    for i in range(len(A)):
+
+        r += A[i] * B[i]
+
+    return r
+
+
+def norm(V):
+
+    s = 0
+
+    for i in range(len(V)):
+
+        s += V[i] ** 2
+
+    return s ** 0.5
+
+
+def mean(data):
+
+    t = 0
+
+    for v in data:
+
+        t += v
+
+    return t / len(data)
+
+
+def variance(data):
+
+    m = mean(data)
+
+    t = 0
+
+    for v in data:
+
+        t += (v - m) ** 2
+
+    return t / len(data)
+
+
+def std(data):
+
+    return variance(data) ** 0.5
+
+
+Generate unit test cases using AI tools for testing your modular functions.
+The unit test cases should be used for both today’s and last week’s lab exercises.
+
+
+[ASSIST - Response 6]
+
+Explained that since both labs contain the same functional modules with
+different implementations, the same unit tests can be used for both.
+
+Generated a unittest-based test file containing tests for:
+
+- label_encode()
+- one_hot_encode()
+- minkowski_distance()
+- dot()
+- norm()
+- mean()
+- variance()
+- std()
+
+Main test examples included:
+
+label_encode:
+['Red', 'Blue', 'Green', 'Blue', 'Red']
+Expected:
+[0, 1, 2, 1, 0]
+
+one_hot_encode:
+Expected:
+[
+    [1, 0, 0],
+    [0, 1, 0],
+    [0, 0, 1],
+    [0, 1, 0],
+    [1, 0, 0]
+]
+
+Minkowski:
+a = [1,2,3]
+b = [4,6,8]
+p = 2
+Expected ≈ 7.0710678119
+
+Dot product:
+[1,2,3] · [4,5,6] = 32
+
+Norm:
+[3,4] → 5
+
+Mean:
+[10,20,30,40,50] → 30
+
+Variance:
+[10,20,30,40,50] → 200
+
+Standard deviation:
+[10,20,30,40,50] → approximately 14.1421
+
+Also suggested edge-case tests such as:
+
+- Label encoding with one unique value
+- One-hot encoding with one unique value
+- Dot product with zero vector
+- Norm of zero vector
+- Mean of identical values
+- Variance of identical values
+- Standard deviation of identical values
+
+Finally, pointed out that using:
+
+np.linalg.norm(a - b, ord=p)
+
+for Minkowski distance is valid, but the explicit formula:
+
+np.sum(np.abs(a - b) ** p) ** (1 / p)
+
+is arguably better for a lab where the implementation itself
+is being demonstrated.
+
+
+------------------------------------------------------------
+
+[USER - Prompt 7 - CURRENT]
+
+can u generate the prompt log/conversational history for this chat alone.
+Please give it to me in a log format.
+
+
+[ASSIST - Current Response]
+
+This log.
