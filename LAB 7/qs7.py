@@ -15,4 +15,5 @@ plt.scatter(X["cd40"],X["age"],c=Y,edgecolor="black",s=30)#actual data points
 plt.xlabel("CD40")
 plt.ylabel("Age")
 plt.title("Decision Boundary using CD40 and Age")
+plt.savefig("ACTG175_decision.png")
 plt.show()
